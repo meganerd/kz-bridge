@@ -8,6 +8,8 @@ variables:
 
 default:
   image: golang:1.24
+  tags:
+    - docker
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
