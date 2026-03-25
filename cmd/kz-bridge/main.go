@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 
+	"github.com/meganerd/kz-bridge/internal/bridge"
 	"github.com/meganerd/kz-bridge/internal/config"
 	"github.com/spf13/cobra"
 )
@@ -62,8 +64,16 @@ func syncCmd() *cobra.Command {
 				cfg.IncludeAITags = includeAITags
 			}
 
-			fmt.Printf("kz-bridge sync (dry-run: %v)\n", cfg.DryRun)
-			// Bridge orchestration will be wired here in KZ-7
+			log := slog.Default()
+			b := bridge.New(cfg, log)
+
+			stats, err := b.Sync()
+			if err != nil {
+				return err
+			}
+
+			fmt.Printf("\nSync complete: %d total, %d synced, %d enriched, %d skipped, %d failed\n",
+				stats.Total, stats.Synced, stats.Enriched, stats.Skipped, stats.Failed)
 			return nil
 		},
 	}
