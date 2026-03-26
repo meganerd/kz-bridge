@@ -108,10 +108,6 @@ func (c *Client) CreateItems(items []Item) (created int, failed int, err error) 
 		created += len(resp.Successful)
 		failed += len(resp.Failed)
 
-		// Handle rate limiting via Backoff header
-		if backoff := resp; backoff != nil {
-			// Already handled in doRequest
-		}
 	}
 	return created, failed, nil
 }
@@ -204,7 +200,7 @@ func (c *Client) doRequest(method, path string, body []byte) ([]byte, error) {
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		respBody, _ := io.ReadAll(resp.Body)
-		return nil, fmt.Errorf("Zotero API returned %d: %s", resp.StatusCode, string(respBody))
+		return nil, fmt.Errorf("zotero API returned %d: %s", resp.StatusCode, string(respBody))
 	}
 
 	return io.ReadAll(resp.Body)
