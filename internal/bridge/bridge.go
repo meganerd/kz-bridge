@@ -153,10 +153,7 @@ func (b *Bridge) mapTags(bm karakeep.Bookmark) []zotero.Tag {
 	var tags []zotero.Tag
 
 	for _, t := range bm.Tags {
-		if !b.cfg.IncludeAITags {
-			// Skip tags that look AI-generated (heuristic: we include all for now,
-			// since Karakeep doesn't distinguish AI vs manual tags in the API)
-		}
+		// TODO: filter AI-generated tags when Karakeep API distinguishes them
 		tags = append(tags, zotero.Tag{Tag: t.Name})
 	}
 
