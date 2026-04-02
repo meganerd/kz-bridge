@@ -8,7 +8,23 @@ linters:
     - unused
     - gosec
     - ineffassign
+    - depguard
+    - gomoddirectives
   settings:
+    depguard:
+      rules:
+        main:
+          list-mode: strict
+          allow:
+            - $gostd
+            - golang.org/x/
+            - github.com/cpuguy83/go-md2man
+            - github.com/inconshreveable/mousetrap
+            - github.com/russross/blackfriday
+            - github.com/spf13/cobra
+            - github.com/spf13/pflag
+            - gopkg.in/
+            - go.yaml.in/
     errcheck:
       exclude-functions:
         - (*os.File).Close
